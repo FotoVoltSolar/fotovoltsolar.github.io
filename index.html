@@ -633,7 +633,7 @@ html { scroll-behavior: smooth }
 											<form data-fv-contact-type="phone" class="fvContactForm needs-validation" novalidate>
 												<div class="input-group">
 													<span class="input-group-text">+421</span>
-													<input type="tel" pattern="[0-9/\s]{8,24}" onkeypress="return /[\d/\s]/.test(String.fromCharCode(event.keyCode || event.which))" class="fvContactInfo form-control form-control-lg" placeholder="Vaše telefónne číslo" aria-label="Telefónne číslo" minlength="9" maxlength="24" required>
+													<input type="tel" pattern="[0-9/\s]{8,24}" data-lfo-chars="[\d\s]" class="fvContactInfo form-control form-control-lg" placeholder="Vaše telefónne číslo" aria-label="Telefónne číslo" minlength="9" maxlength="24" required>
 													<button type="button" class="fvContactFormButton btn btn-warning px-3">Odoslať</button>
 												</div>
 											</form>
@@ -685,7 +685,7 @@ html { scroll-behavior: smooth }
 											<form data-fv-contact-type="phone" class="fvContactForm needs-validation" novalidate>
 												<div class="input-group">
 													<span class="input-group-text">+421</span>
-													<input type="tel" pattern="[0-9/\s]{8,24}" onkeypress="return /[\d/\s]/.test(String.fromCharCode(event.keyCode || event.which))" class="fvContactInfo form-control form-control-lg" placeholder="Vaše telefónne číslo" aria-label="Telefónne číslo" minlength="9" maxlength="24" required>
+													<input type="tel" pattern="[0-9/\s]{8,24}" data-lfo-chars="[\d\s]" class="fvContactInfo form-control form-control-lg" placeholder="Vaše telefónne číslo" aria-label="Telefónne číslo" minlength="9" maxlength="24" required>
 													<button type="button" class="fvContactFormButton btn btn-lg btn-warning px-3">Odoslať</button>
 												</div>
 											</form>
@@ -865,7 +865,24 @@ html { scroll-behavior: smooth }
 					hit : (media) => { FVEngine.api.rec(media, '', function(result) { }); },
 					rec : (media, contact, callback) => {
 						const loc = FVEngine.location();
-						$.getJSON(`${FVEngine.api.url}?action=lead&con=${FVEngine.contractor.id}&ref=${FVEngine.contractor.refID}&uid=${FVEngine.uid}&aff=${FVEngine.loader.referrer}&fun=${FVEngine.loader.funnel}&media=${media}&email=${(media == 'email') ? contact : ''}&phone=${(media == 'phone') ? contact : ''}&cit=${loc.city}&reg=${loc.region}&zip=${loc.postal_code}&cty=${loc.country_code}&lat=${loc.latitude}&lon=${loc.longitude}`, function(data) { callback(data); });
+						const data = {
+							action : 'lead',
+							con : FVEngine.contractor.id,
+							ref : FVEngine.contractor.refID,
+							uid : FVEngine.uid,
+							aff : FVEngine.loader.referrer,
+							fun : FVEngine.loader.funnel,
+							media : media,
+							email : (media == 'email') ? contact : '',
+							phone : (media == 'phone') ? contact : '',
+							cit : loc.city,
+							reg : loc.region,
+							zip : loc.postal_code,
+							cty : loc.country_code,
+							lat : loc.latitude,
+							lon : loc.longitude
+						};
+						$.post(FVEngine.api.url, data, function(data) { callback(data); });
 					}
 				},
 				localStorage : (sid='dev.FotoVolt.userData') => {
@@ -997,6 +1014,7 @@ html { scroll-behavior: smooth }
 						});
 					},
 					handlers : () => {
+						$('input[data-lfo-chars]').on('keypress', FVEngine.utilities.input.filter);
 						$('.fvContractorPhone').click(function() { FVEngine.ui.showContactDialog('phone'); });
 						$('#fvCallURL').click(function() { FVEngine.api.hit('call'); return true; });
 						$('#fvSmsURL').click(function() { FVEngine.api.hit('sms'); return true; });
@@ -1035,7 +1053,14 @@ html { scroll-behavior: smooth }
 					}
 				},
 				utilities : {
-					connectRedirect : (url) => { window.location.href = url; }
+					connectRedirect : (url) => { window.location.href = url; },
+					input : {
+						phoneNumber : function(event) { return /[\d/+()\s]/.test(String.fromCharCode(event.keyCode || event.which)); },
+						filter : function(event) {
+							const matcher = new RegExp($(this).attr('data-lfo-chars'), 'g');
+							return matcher.test(String.fromCharCode(event.keyCode || event.which));
+						}
+					}
 				}
 			};
 			FVEngine.init();
