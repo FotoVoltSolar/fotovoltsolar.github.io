@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://sunpixel.photography/sitemap.xml
+Sitemap: https://fotovoltsolar.github.io/sitemap.xml
