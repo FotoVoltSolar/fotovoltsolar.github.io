@@ -1,1 +1,0 @@
-# fotovoltsolar.github.io

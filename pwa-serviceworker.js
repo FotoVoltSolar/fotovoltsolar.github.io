@@ -15,7 +15,7 @@ self.addEventListener('activate', event => {
 });
 self.addEventListener('fetch', function(event) {
 	// console.log('Fetching:', event.request.url);
-	var regex = /https://sunpixel.photography\/.*/;  // var regex = /https:\/\/www.googleapis.com\/youtube\/v3\/playlistItems/;
+	var regex = /https://fotovoltsolar.github.io\/.*/;  // var regex = /https:\/\/www.googleapis.com\/youtube\/v3\/playlistItems/;
 	if (event.request.url.match(regex)) {
 		// console.log('Worker Fetching:', event.request.url);
 		event.respondWith(
