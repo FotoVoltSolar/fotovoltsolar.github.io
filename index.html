@@ -274,8 +274,7 @@ html { scroll-behavior: smooth }
 			<nav id="fvNavBar" class="container-fluid navbar navbar-expand-lg fixed-top navbar-light bg-white">
 				<div class="container g-0">
 					<a class="navbar-brand hstack gap-3 me-4" href="/">
-						<img src="/media/fotovolt-solar-logo-full.png" alt="Fotovoltika" height="63">
-						<!--span class="text-uppercase fs-4 fw-bold m-0 p-0">Fotovoltika</span-->
+						<img class="fvLogo" src="/media/fotovolt-solar-logo-full.png" alt="Fotovoltika" height="63">
 					</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#fvNavBarCollapse" aria-controls="fvNavBarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -300,12 +299,12 @@ html { scroll-behavior: smooth }
 							</div>
 							<div class="hstack gap-1 ps-4 ms-auto my-2">
 								<div role="button" class="d-flex align-items-center">
-									<img class="fvContractorPhone me-3" src="/media/svg/solid/phone-rotary.svg" width="32" height="32" />
+									<img class="fvContractorPhone" src="/media/svg/solid/phone-rotary.svg" width="32" height="32" />
 								</div>
-								<div role="button" class="d-flex align-items-center">
-									<img class="fvContractorEmail me-3" src="/media/svg/solid/envelope.svg" width="32" height="32" />
+								<div role="button" class="d-flex align-items-center ms-3">
+									<img class="fvContractorEmail" src="/media/svg/solid/envelope.svg" width="32" height="32" />
 								</div>
-								<div role="button" class="d-flex align-items-center">
+								<div role="button" class="d-flex align-items-center ms-3 fvMessengerItem">
 									<a href="#" class="fvMessengerURL" target="_blank" rel="external noopener"><img src="/media/svg/brands/facebook-messenger.svg" width="32" height="32" /></a>
 								</div>
 							</div>
@@ -619,7 +618,7 @@ html { scroll-behavior: smooth }
 												<img role="button" class="me-3" src="/media/svg/solid/envelope.svg" width="32" height="32" />
 												<span role="button" class="fvContractorEmailValue col-auto fs-3 fw-bold link-primary">martina@fotovolt.solar</span>
 											</div>
-											<div class="d-flex align-items-center">
+											<div class="d-flex align-items-center fvMessengerItem">
 												<img class="me-3" src="/media/svg/brands/facebook-messenger.svg" width="32" height="32" />
 												<a href="#" role="button" class="fvMessengerURL fvContractorMessengerValue col-auto fs-3 fw-bold link-primary text-decoration-none" target="_blank" rel="external noopener">https://m.me/martina</a>
 											</div>
@@ -672,7 +671,7 @@ html { scroll-behavior: smooth }
 								<li class="nav-item" role="presentation">
 									<button class="nav-link" id="fvContactDialogTab-email" data-bs-toggle="tab" data-bs-target="#contact-email" type="button" role="tab" aria-controls="contact-email" aria-selected="false">E-mail</button>
 								</li>
-								<li class="nav-item" role="presentation">
+								<li class="nav-item fvMessengerItem" role="presentation">
 									<button class="nav-link" id="fvContactDialogTab-messenger" data-bs-toggle="tab" data-bs-target="#contact-messenger" type="button" role="tab" aria-controls="contact-messenger" aria-selected="false">Messenger</button>
 								</li>
 							</ul>
@@ -757,7 +756,7 @@ html { scroll-behavior: smooth }
 							<ol class="list-group list-group-flush list-group-numbered rounded-3">
 								<li class="list-group-item">Dotácia na produkt vo výške až 1500€.</li>
 								<li class="list-group-item">Každý náš klient získa 200€ za každého klienta, ktorého nám odporučí.</li>
-								<li class="list-group-item">Za odporučenie klienta získate 100€, aj keď nie ste naším klientom.</li>
+								<li class="list-group-item d-none fvAffilItem">Za odporučenie klienta získate 100€, aj keď nie ste naším klientom.</li>
 							</ol>
 						</div>
 						<div class="modal-footer bg-light">
@@ -829,7 +828,7 @@ html { scroll-behavior: smooth }
 						<div>Zdieľajte</div>
 						<div class="shareaholic-canvas" data-app="share_buttons" data-app-id="33039425"></div>
 					</div>
-					<div class="mb-3">
+					<div class="mb-3 d-none fvAffilItem">
 						<div class="hstack gap-4">
 							<div class="vstack gap-0 text-end">
 								<div>Získajte <span class="fs-3 fw-bold">100€</span></div>
@@ -851,7 +850,7 @@ html { scroll-behavior: smooth }
 					locationID : 'dev.FotoVolt.userLocation',
 				},
 				api : {
-					url : 'https://script.google.com/macros/s/AKfycbwldLIM5mzjifbLUl1wMJPBUgcj9YHdY-JLdC4i3gfBrdG1X0VnHsE30eOmwzug1nrS/exec',
+					url : 'https://script.google.com/macros/s/AKfycby4qtqiHoKHIY2SuXZ36pcSoruY141D_0daatzv9DcIBwmedmpbJe-7cxQ4hXZMhZJH/exec',
 					lead : (type, data, dialogID) => {
 						$('#fvSpinner').show();
 						FVEngine.api.rec(type, data, function(result) {
@@ -994,6 +993,9 @@ html { scroll-behavior: smooth }
 							$('#fvGmailURL').attr('href', urlGmail());
 							$('.fvContractorMessengerValue').html(contractor.messenger);
 							$('.fvMessengerURL').attr('href', contractor.messenger);
+							if (contractor.messenger.length == 0) $('.fvMessengerItem').addClass('d-none');
+							if (contractor.affilOn == 1) $('.fvAffilItem').removeClass('d-none');
+							$('.fvLogo').attr('src', `/media/fotovolt-solar-logo-${contractor.id}.png`);
 							$('#contractorPhoto').attr('src', `/media/${contractor.id}.jpg`);
 							switch (FVEngine.loader.command) {
 								case 'phone':
