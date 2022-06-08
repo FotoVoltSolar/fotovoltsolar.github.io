@@ -32,9 +32,8 @@
 	],
 	"scope": "https://sunpixel.photography/",
 	"start_url": "/?source=pwa",
-	"background_color": "#181818",
-	"theme_color": "#d89838",
+	"background_color": "#ffffff",
+	"theme_color": "#156EFD",
 	"display": "standalone",
 	"orientation": "any"
 }
-
