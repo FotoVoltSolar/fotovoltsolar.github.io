@@ -993,8 +993,8 @@ html { scroll-behavior: smooth }
 							$('.fvContractorEmailValue').html(contractor.email);
 							$('#fvEmailURL').attr('href', urlEmail());
 							$('#fvGmailURL').attr('href', urlGmail());
-							$('.fvContractorMessengerValue').html(contractor.messenger);
-							$('.fvMessengerURL').attr('href', contractor.messenger);
+							$('.fvContractorMessengerValue').html(`https://m.me/${contractor.messenger}`);
+							$('.fvMessengerURL').attr('href', `https://m.me/${contractor.messenger}`);
 							if (contractor.messenger.length == 0) $('.fvMessengerItem').addClass('d-none');
 							if (contractor.affilOn == 1) $('.fvAffilItem').removeClass('d-none');
 							$('.fvLogo').attr('src', `/media/fotovolt-solar-logo-${contractor.id}.png`);
