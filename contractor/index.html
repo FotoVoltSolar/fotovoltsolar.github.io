@@ -143,8 +143,7 @@
 			</div>
 		</div>
 		<script type="text/javascript">
-			const api = 'https://script.google.com/macros/s/AKfycbz_SI5dbrMKEhi8RTu5JRjDJt-tFE2g2i9h28BnRn2DKnGRpQa5oLivRILTVtKhMUj7/exec';
-			const domain = 'iam369.github.io/fotovolt';
+			const api = 'https://script.google.com/macros/s/AKfycbxqo6H7NR-J2DsIXWeU_eVeBZF6u8ldYBezHs_-i97gHhvzfi0E87bpI0Mu7zIEjoc/exec';
 			const inputs = new URLSearchParams(window.location.search);
 			$(function() {
 				$('.fvOpenIcon').attr('src', '/media/svg/solid/share-square.svg');
@@ -188,14 +187,14 @@
 					var fid = $('#fvFunnelID').val();
 					fid = (fid != '') ? `&fun=${fid}` : '';
 
-					$('#fvLinkMain').val(`https://${domain}/?${contractor.id}${fid}`);
-					$('#fvLinkOpenPhone').val(`https://${domain}/?${contractor.id}&phone${fid}`);
-					$('#fvLinkOpenEmail').val(`https://${domain}/?${contractor.id}&email${fid}`);
-					$('#fvLinkDoCall').val(`https://${domain}/?${contractor.id}&call${fid}`);
-					$('#fvLinkDoSMS').val(`https://${domain}/?${contractor.id}&sms${fid}`);
-					$('#fvLinkDoWhatsApp').val(`https://${domain}/?${contractor.id}&whatsapp${fid}`);
-					$('#fvLinkDoEmail').val(`https://${domain}/?${contractor.id}&emailapp${fid}`);
-					$('#fvLinkDoGmail').val(`https://${domain}/?${contractor.id}&gmail${fid}`);
+					$('#fvLinkMain').val(`https://${contractor.domain}/?${contractor.id}${fid}`);
+					$('#fvLinkOpenPhone').val(`https://${contractor.domain}/?${contractor.id}&phone${fid}`);
+					$('#fvLinkOpenEmail').val(`https://${contractor.domain}/?${contractor.id}&email${fid}`);
+					$('#fvLinkDoCall').val(`https://${contractor.domain}/?${contractor.id}&call${fid}`);
+					$('#fvLinkDoSMS').val(`https://${contractor.domain}/?${contractor.id}&sms${fid}`);
+					$('#fvLinkDoWhatsApp').val(`https://${contractor.domain}/?${contractor.id}&whatsapp${fid}`);
+					$('#fvLinkDoEmail').val(`https://${contractor.domain}/?${contractor.id}&emailapp${fid}`);
+					$('#fvLinkDoGmail').val(`https://${contractor.domain}/?${contractor.id}&gmail${fid}`);
 				};
 				$.getJSON(`${api}?action=cont&id=${inputs.get('id')}`, function(data) {
 					contractor = data.contractor;
