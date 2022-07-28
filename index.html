@@ -845,7 +845,7 @@ html { scroll-behavior: smooth }
 					locationID : 'dev.FotoVolt.userLocation',
 				},
 				api : {
-					url : 'https://script.google.com/macros/s/AKfycbz_0GR13MiRfeBzSaG4aCIbGMPZIUXH3gOpmcPoYwDXSqPqC5mmV9n1YcKp5qB8M6Jw/exec',
+					url : 'https://script.google.com/macros/s/AKfycbwpZy-b_y7hVn6KJpR2iDozVoEi7-V2rj2HWcAHH6chBjAZMAHyXS6ebx8yN58VcWDD/exec',
 					lead : (type, data, dialogID) => {
 						$('#fvSpinner').show();
 						FVEngine.api.rec(type, data, function(result) {
@@ -910,6 +910,7 @@ html { scroll-behavior: smooth }
 					}
 				},
 				uid : '',
+				isNew : 1,
 				loader : {},
 				contractor : {},
 				inits : {
@@ -917,12 +918,12 @@ html { scroll-behavior: smooth }
 						const idKey = 'userID';
 						var store = FVEngine.localStorage(FVEngine.k.storeID);
 						if (idKey in store) {
-							return store[idKey];
+							return [store[idKey], 0];
 						} else {
 							const uid = Math.ceil((Date.now() - Date.parse('01 Jan 2022 00:00:00 GMT'))/100).toString(36);
 							store[idKey] = uid;
 							window.localStorage.setItem(FVEngine.k.storeID, JSON.stringify(store));
-							return uid;
+							return [uid, 1];
 						}
 					},
 					loader : () => {
@@ -971,7 +972,7 @@ html { scroll-behavior: smooth }
 						return loader;
 					},
 					contractor : () => {
-						$.getJSON(`${FVEngine.api.url}?action=con&url=${FVEngine.loader.domain}&id=${FVEngine.loader.contractor}`, function(data) {
+						$.getJSON(`${FVEngine.api.url}?action=con&url=${FVEngine.loader.domain}&id=${FVEngine.loader.contractor}&new=${FVEngine.isNew}`, function(data) {
 							const contractor = data.contractor;
 							FVEngine.contractor = contractor;
 							const sanPhone = contractor.phone.replace(/\s*/g, '');
@@ -1043,7 +1044,7 @@ html { scroll-behavior: smooth }
 				},
 				init : () => {
 					FVEngine.location();
-					FVEngine.uid = FVEngine.inits.uid();
+					[FVEngine.uid, FVEngine.isNew] = FVEngine.inits.uid();
 					FVEngine.loader = FVEngine.inits.loader();
 				},
 				ui : {
